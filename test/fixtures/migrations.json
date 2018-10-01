@@ -1,0 +1,95 @@
+[
+  {
+    "source_ref": "https://schema.humancellatlas.org/type/biomaterial/5.1.0/donor_organism",
+    "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/5.1.1/donor_organism",
+    "task_groups": []
+  },
+  {
+    "source_ref": "https://schema.humancellatlas.org/type/biomaterial/5.1.1/donor_organism",
+    "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/5.1.0/donor_organism",
+    "task_groups": []
+  },
+  {
+    "source_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.0/donor_organism",
+    "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.1/donor_organism",
+    "task_groups": [
+      {
+        "tasks": [
+          {
+            "function": "pounds_to_kilograms",
+            "parameters": [
+              "weight",
+              "weight_unit.text"
+            ]
+          },
+          {
+            "function": "move",
+            "parameters": [
+              "weight",
+              "mass"
+            ]
+          },
+          {
+            "function": "move",
+            "parameters": [
+              "weight_unit",
+              "mass_unit"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.1/donor_organism",
+    "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.0/donor_organism",
+    "task_groups": [
+      {
+        "tasks": [
+          {
+            "function": "move",
+            "parameters": [
+              "mass",
+              "weight"
+            ]
+          },
+          {
+            "function": "move",
+            "parameters": [
+              "mass_unit",
+              "weight_unit"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.0/donor_organism",
+    "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/5.9.9/donor_organism",
+    "task_groups": [
+      {
+        "tasks": [
+          {
+            "function": "move",
+            "parameters": [
+              "does_not_exist",
+              "also_does_not_exist"
+            ]
+          }
+        ]
+      },
+      {
+        "tasks": [
+          {
+            "function": "set",
+            "parameters": [
+              "foo",
+              "bar"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

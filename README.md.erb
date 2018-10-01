@@ -25,37 +25,10 @@ new schema version.
 a hypothetical `v6.0.1` is shown below.
 
 ```json
-{
-  "source_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.0/donor_organism",
-  "destination_ref": "https://schema.humancellatlas.org/type/biomaterial/6.0.1/donor_organism",
-  "task_groups": [
-    {
-      "tasks": [
-        {
-          "function": "pounds_to_kilograms",
-          "parameters": [
-            "weight",
-            "weight_unit.text"
-          ]
-        },
-        {
-          "function": "move",
-          "parameters": [
-            "weight",
-            "mass"
-          ]
-        },
-        {
-          "function": "move",
-          "parameters": [
-            "weight_unit",
-            "mass_unit"
-          ]
-        }
-      ]
-    }
-  ]
-}
+<% File.open('test/fixtures/migrations.json', 'r') do |fh| %>
+<% h = JSON.parse(fh.read).find{ |m| m['source_ref'].include? '6.0.0' and m['destination_ref'].include? '6.0.1' } %>
+<%= JSON.pretty_generate(h) + "\n" %>
+<% end %>
 ```
 
 `parameters` refer to keys in the metadata. Functions are implemented as simple python functions.
@@ -69,37 +42,7 @@ Metadata migrator accepts a `MetadataView` and attempts to migrate it to a speci
 donor organism.
 
 ```python
-{
-  "describedBy": "https://schema.humancellatlas.org/type/biomaterial/6.0.0/donor_organism",
-  "schema_type": "biomaterial",
-  "biomaterial_core": {
-    "biomaterial_id": "Q4_DEMO-donor_MGH30",
-    "biomaterial_name": "Q4 DEMO donor MGH30",
-    "ncbi_taxon_id": [
-      9606
-    ]
-  },
-  "genus_species": [
-    {
-      "text": "Homo sapiens"
-    }
-  ],
-  "organism_age": "29",
-  "organism_age_unit": "year",
-  "height": "178",
-  "height_unit": "centimeter",
-  "is_living": true,
-  "biological_sex": "male",
-  "weight": "160",
-  "weight_unit": {
-    "text": "lbs"
-  },
-  "provenance": {
-    "document_id": "dcbe0115-7871-41de-8502-b68f6ca024ab",
-    "submission_date": "2018-07-22T23:38:35.835Z",
-    "update_date": "2018-07-22T23:38:44.151Z"
-  }
-}
+<%= File.open('test/fixtures/donor_organism_6_0_0.json', 'r') { |fh| fh.read + "\n" } %>
 ```
 
 To migrate this metadata to a different version, we load migration information, select the migration and apply it.
@@ -109,37 +52,7 @@ metadta_view_6_0_0 = MetadataView.from_file('./test/fixtures/donor_organism_6_0_
 migration_catalog = MigrationCatalog.from_file('./test/fixtures/migrations.json')
 metadata_migrator = MetadataMigrator(migration_catalog)
 metadata_migrator.migrate_to_version(metadata, '6.0.1')
-{
-  "describedBy": "https://schema.humancellatlas.org/type/biomaterial/6.0.1/donor_organism",
-  "schema_type": "biomaterial",
-  "biomaterial_core": {
-    "biomaterial_id": "Q4_DEMO-donor_MGH30",
-    "biomaterial_name": "Q4 DEMO donor MGH30",
-    "ncbi_taxon_id": [
-      9606
-    ]
-  },
-  "genus_species": [
-    {
-      "text": "Homo sapiens"
-    }
-  ],
-  "organism_age": "29",
-  "organism_age_unit": "year",
-  "height": "178",
-  "height_unit": "centimeter",
-  "is_living": true,
-  "biological_sex": "male",
-  "mass": "72.57472",
-  "mass_unit": {
-    "text": "kgs"
-  },
-  "provenance": {
-    "document_id": "dcbe0115-7871-41de-8502-b68f6ca024ab",
-    "submission_date": "2018-07-22T23:38:35.835Z",
-    "update_date": "2018-07-22T23:38:44.151Z"
-  }
-}
+<%= File.open('test/fixtures/donor_organism_6_0_1.json', 'r') { |fh| fh.read + "\n" } %>
 ```
 
 Notice now that the `weight` and `weight_unit` fields have been migrated to `mass` and `mass_unit` respectively.
