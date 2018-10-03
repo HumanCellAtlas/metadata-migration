@@ -65,8 +65,11 @@ committed. This will be discussed further in the [migration strategy](#Migration
 
 ### `class MetadataMigrator`
 
-Metadata migrator accepts a `MetadataView` and attempts to migrate it to a specified version. Below is a sample `v6.0.0`
-donor organism.
+Metadata migrator accepts a `MetadataView` and attempts to migrate it to a specified version. Importantly, the migrator
+can _both_ upgrade and downgrade metadata across versions so long as migration information is provided that spans the
+two version schemas.
+
+Below is a sample `v6.0.0` donor organism.
 
 ```python
 {
@@ -105,10 +108,10 @@ donor organism.
 To migrate this metadata to a different version, we load migration information, select the migration and apply it.
 
 ```python
-metadta_view_6_0_0 = MetadataView.from_file('./test/fixtures/donor_organism_6_0_0.json')
+metadata_view_6_0_0 = MetadataView.from_file('./test/fixtures/donor_organism_6_0_0.json')
 migration_catalog = MigrationCatalog.from_file('./test/fixtures/migrations.json')
 metadata_migrator = MetadataMigrator(migration_catalog)
-metadata_migrator.migrate_to_version(metadata, '6.0.1')
+metadata_migrator.migrate_to_version(metadata_view_6_0_0, '6.0.1')
 {
   "describedBy": "https://schema.humancellatlas.org/type/biomaterial/6.0.1/donor_organism",
   "schema_type": "biomaterial",
