@@ -91,7 +91,10 @@ value in the dictionary.
 # Condition: submission must have been created in the last two weeks
 from dateutil.parser import parse as parse_datetime
 from datetime import datetime, timedelta
-c = Condition('provenance', submission_date=lambda x: parse_datetime(x) > datetime.utcnow() - timedelta(days=14))
+c = Condition(
+    'provenance',
+    submission_date=lambda x: parse_datetime(x) > datetime.utcnow() - timedelta(days=14)
+)
 c.validate(metadata_view)
 ```
 
