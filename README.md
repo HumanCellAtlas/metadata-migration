@@ -17,7 +17,7 @@ This section introduces concepts and modules for migration.
 
 A `MetadataView` blob of metadata migrated to a new schema version. It is a "view" on the unmigrated metadata because,
 often, migrations cannot guarantee that the original metadata uploader would have uploaded identical metadata under the
-new schema version.
+target schema version.
 
 ### Migration Information
 
@@ -65,9 +65,9 @@ committed. This will be discussed further in the [migration strategy](#Migration
 
 ### `class MetadataMigrator`
 
-Metadata migrator accepts a `MetadataView` and attempts to migrate it to a specified version. Importantly, the migrator
-can _both_ upgrade and downgrade metadata across versions so long as migration information is provided that spans the
-two version schemas.
+Metadata migrator accepts a `MetadataView` and attempts to migrate it to a specified version. The migrator can _both_
+upgrade and downgrade metadata. It can migrate between any two metadata versions so long as the graph of migration
+information spans the two version schemas.
 
 Below is a sample `v6.0.0` donor organism.
 
@@ -145,7 +145,7 @@ metadata_migrator.migrate_to_version(metadata_view_6_0_0, '6.0.1')
 }
 ```
 
-Notice now that the `weight` and `weight_unit` fields have been migrated to `mass` and `mass_unit` respectively.
+Notice that the `weight` and `weight_unit` fields have been migrated to `mass` and `mass_unit` respectively.
 
 #### <a name="MigrationStrategy"></a> MigrationStrategy
 
