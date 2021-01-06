@@ -1,1 +1,2 @@
 hca-ingest
+pyyaml>=5.2 # not directly required, pinned by Snyk to avoid a vulnerability
